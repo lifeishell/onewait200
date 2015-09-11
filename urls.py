@@ -6,8 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'onewait200.views.home', name='home'),
-    url(r'^onewait200/', include('onewait200.app.urls')),
+    url(r'^get_relations/$', 'onewait200.app.views.get_relations', name='get_relations'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
