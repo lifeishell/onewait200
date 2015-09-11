@@ -1,4 +1,26 @@
 from django.http import HttpResponse
+from onewait200.app.models import Person, Relation
 
 def get_relations(request):
-    return HttpResponse("Hello world");
+    response = []
+    relations = Relation.objects.all()
+
+    for r in Relation:
+        if r.from_person.id in obj.values():
+            break
+        else
+            obj = {
+                'id': r.from_person.id
+                'name': r.from_person.name
+            }
+            relations = Relation.objects.filter(from_person=Relation.objects.all()[0].from_person)
+            obj.relations = []
+            for re in relations:
+                relation = {
+                    'withWho': re.to_person.pk,
+                    'text': re.description
+                }
+                obj.relations.append(relation)
+            response.append(obj)
+
+    return HttpResponse(response)
