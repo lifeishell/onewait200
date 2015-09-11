@@ -1,10 +1,12 @@
 from django.contrib import admin
 from onewait200.app.models import Person, Relation
 
-class PersonAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Person, PersonAdmin)
+class RelationInline(admin.TabularInline):
+    model = Relation
 
-class RelationAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Relation, RelationAdmin)
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    inlines = [
+        RelationInline,
+    ]
+admin.site.register(Person, PersonAdmin)
