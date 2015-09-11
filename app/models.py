@@ -4,6 +4,6 @@ class Person(models.Model):
     name = models.CharField(max_length=30)
 
 class Relation(models.Model):
-    from = models.ForeignKey(Persons)
-    to = models.ForeignKey(Persons)
+    from_person = models.ForeignKey(Persons, related_name="from")
+    to_person = models.ForeignKey(Persons, related_name="to")
     description = models.CharField(max_length=256)
