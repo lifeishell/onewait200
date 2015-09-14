@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse
 from onewait200.app.models import Person, Relation
 
@@ -10,13 +11,13 @@ def get_relations(request):
     for p in person:
         relations = Relation.objects.filter(from_person=p)
         obj = {
-                'id': int(p.id),
+                'id': p.name,
                 'name': p.name,
                 'relations': []
             }
         for r in relations:
             relation = {
-                'withWho': int(r.to_person.pk),
+                'withWho': r.to_person.name,
                 'text': r.description,
                 'oneWay': Relation.objects.filter(to_person=p, from_person=r.to_person).count()
             }
@@ -24,7 +25,7 @@ def get_relations(request):
 
         response.append(obj)
 
-    return HttpResponse(response)
+    return HttpResponse(json.dumps(response), content_type="application/json")
 
 def add_person(request):
     if request.POST and request.POST['name']:
