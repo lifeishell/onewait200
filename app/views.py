@@ -3,24 +3,25 @@ from onewait200.app.models import Person, Relation
 
 def get_relations(request):
     response = []
-    rela = Relation.objects.all()
+    person = Person.objects.all()
+
     obj = None
-    for r in rela:
-        if obj and r.from_person.id in obj.values():
-            break
-        else:
-            obj = {
-                'id': r.from_person.id,
-                'name': r.from_person.name
+
+    for p in person:
+        relations = Relation.objects.filter(from_person=p)
+        obj = {
+                'id': p.id,
+                'name': p.name,
+                'relations': []
             }
-            relations = Relation.objects.filter(from_person=Relation.objects.all()[0].from_person)
-            obj['relations'] = []
-            for re in relations:
-                relation = {
-                    'withWho': re.to_person.pk,
-                    'text': re.description
-                }
-                obj['relations'].append(relation)
-            response.append(obj)
+        for r in relations:
+            relation = {
+                'withWho': r.to_person.pk,
+                'text': r.to_person.description,
+                'oneWay': Relations.objects.filter(to_person=p, from_person=r.to_person).count()
+            }
+            obj['relations'].append(relation)
+
+        response.append(obj)
 
     return HttpResponse(response)
